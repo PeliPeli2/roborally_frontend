@@ -160,7 +160,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         <GameContext.Provider
             value={
                 {
-                    games: [],
+                    games: games,
                     selectGame: async () => {},
                     unselectGame: async () => {},
                     loaded: loaded,
