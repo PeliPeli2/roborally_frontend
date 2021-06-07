@@ -14,6 +14,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
     }
 
     return (
+        <div>Test</div>
+        /*
         <div onClick={OnClickGame}>
             <h1>{game.id}:{game.name}</h1>
             <ul>
@@ -21,6 +23,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
                 }
             </ul>
         </div>
+
+         */
     )
 }
 

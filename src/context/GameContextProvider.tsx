@@ -13,7 +13,7 @@ type GameContextProviderPropsType = {
 
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const [loaded, setLoaded] = useState<boolean>(false)
-    const[games,setGames] = useState<Game[]>([])
+    const [games, setGames] = useState<Game[]>([{"name":"Board1","id":1,"started":true,"users":[{"playerId":1,"playerName":"Player1Name"},{"playerId":2,"playerName":"Player2Name"}]}])
     const [players, setPlayers] = useState<Player[]>([])
     const playerCount = useMemo(() => players.length, [players])
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
@@ -31,19 +31,18 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     useEffect(() => {
-        console.log("start")
-
-        GameApi.getGames().then(games=>
-        {
-            console.log("stuff")
-            setGames(games)
-            setLoaded(true)
+        GameApi.getGames().then((ga:Game[]) => {
+            setGames(ga)
+            console.log("lol")
             console.log(games)
+            console.log("lol")
+            console.log(ga)
+            console.log("lol")
+            setLoaded(true)
         }).catch(()=>{
             console.error("error when getting games")
         })
-        /*
-        GameApi.getBoard(1).then(board => {
+        GameApi.getBoard(1).then((board:Board) => {
             setSpaces(board.spaceDtos)
             setPlayers(board.playerDtos)
             setWidth(board.width)
@@ -60,16 +59,16 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
             }
 
-            setLoaded(true)
+            //setLoaded(true)
         }).catch(() => {
             console.error("Error while fetching board from backend")
-        })*/
+        })
     }, [])
 
 
     const selectGame = useCallback(async(game:Game)=> {
         if(game.started){
-            GameApi.getBoard(1).then(board => {
+            GameApi.getBoard(game.id).then((board: Board) => {
                 if (board.playerDtos.length >0) {
                     setSpaces(board.spaceDtos)
                     setPlayers(board.playerDtos)
