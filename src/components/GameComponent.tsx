@@ -1,4 +1,4 @@
-import {FunctionComponent, useContext} from "react";
+import {FunctionComponent, useCallback, useContext, useState} from "react";
 import GameContext from "../context/GameContext";
 import {Game} from "../types/Game";
 
@@ -8,14 +8,16 @@ export type GameComponentProps = {
 
 export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
 
-    const {selectGame} = useContext(GameContext)
-    const OnClickGame = async () => {
+    const {selectGame, screenName} = useContext(GameContext)
+    const OnClickGame = useCallback(() => {
         selectGame(game)
-    }
+        console.log(screenName)
+    }, [])
 
-    return (
+
+        return (
         <div onClick={OnClickGame}>
-            <h1>{game.id}:{game.name}</h1>
+            <h1 >{game.id}:{game.name}</h1>
             <ul>
                 {game.users.map((user, index) => <li key={index}> {user.playerName} </li>)}
             </ul>

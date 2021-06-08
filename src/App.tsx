@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
 import BoardComponent from "./components/BoardComponent";
 import GameContextProvider from "./context/GameContextProvider";
 import GamesComponent from "./components/GamesComponent";
+import GameContext from "./context/GameContext";
 
 function App() {
+    const{screenName} = useContext(GameContext)
 
     return (
         <div className="App">
@@ -12,7 +15,7 @@ function App() {
             {/*Context provider component below makes sure the context is accessible in any children components*/}
             <GameContextProvider>
                 <GamesComponent/>
-                <BoardComponent/>
+                 <BoardComponent/>
             </GameContextProvider>
         </div>
     );

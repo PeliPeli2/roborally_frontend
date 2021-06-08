@@ -12,10 +12,10 @@ type GameContextProviderPropsType = {
 
 
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
-    const [loaded, setLoaded] = useState<boolean>(false)
-    const [games, setGames] = useState<Game[]>([{"name":"Board1","id":1,"started":true,"users":[{"playerId":1,"playerName":"Player1Name"},{"playerId":2,"playerName":"Player2Name"}]}])
+    const [games, setGames] = useState<Game[]>([])
     const [players, setPlayers] = useState<Player[]>([])
     const playerCount = useMemo(() => players.length, [players])
+    const [screenName, setScreenName] = useState<string>("Game")
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
     const [currentPlayer, setCurrentPlayer] = useState<Player>({playerId : -1,playerColor:"red",boardId : -1,playerName : ""})
     const [spaces, setSpaces] = useState<Space[][]>([])
@@ -33,12 +33,6 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     useEffect(() => {
         GameApi.getGames().then((ga:Game[]) => {
             setGames(ga)
-            console.log("lol")
-            console.log(games)
-            console.log("lol")
-            console.log(ga)
-            console.log("lol")
-            setLoaded(true)
         }).catch(()=>{
             console.error("error when getting games")
         })
@@ -58,8 +52,6 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                 })
 
             }
-
-            //setLoaded(true)
         }).catch(() => {
             console.error("Error while fetching board from backend")
         })
@@ -67,6 +59,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
 
     const selectGame = useCallback(async(game:Game)=> {
+        console.log("SELECT")
         if(game.started){
             GameApi.getBoard(game.id).then((board: Board) => {
                 if (board.playerDtos.length >0) {
@@ -84,8 +77,10 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                             }
                         })
 
+
                     }
-                    setLoaded(true)
+                    console.log("screenName set")
+                    setScreenName("Board")
                 }
             }).catch(() => {
                 console.error("Error while fetching board from backend")
@@ -93,12 +88,14 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         }else{
                 console.error("Selected game" + game.name +"is not started yet")
         }
+        console.log("SELECT END")
     },[])
 
 
     const unselectGame = useCallback(async () => {
+        console.log("UNSELECT")
         setGameId(-1);
-        setLoaded(false);
+        setScreenName("Game")
     }, [])
 
     /*
@@ -161,9 +158,9 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
             value={
                 {
                     games: games,
-                    selectGame: async () => {},
-                    unselectGame: async () => {},
-                    loaded: loaded,
+                    screenName: screenName,
+                    selectGame: selectGame,
+                    unselectGame: unselectGame,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,
                     switchCurrentPlayer: switchToNextPlayer

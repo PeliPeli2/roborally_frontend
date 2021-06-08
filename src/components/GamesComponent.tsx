@@ -4,14 +4,10 @@ import {GameComponent} from "./GameComponent";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
-    const{games,loaded} = useContext(GameContext)
-    useEffect(()=> {
-    console.log("1")
-    console.log(games)
-    console.log("2")
-    },[games])
+    const{games,screenName} = useContext(GameContext)
+
     return (
-        loaded ?
+        screenName =="Game" ?
             <div>
                 {games.map((game,index)=>
                 <GameComponent key ={"game" + index}game={game}/>
@@ -19,10 +15,7 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
                 }
             </div>
             :
-            <div>
-            hjælp mig
-
-            </div>
+            <div/>
     )
 
 }

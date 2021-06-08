@@ -4,9 +4,9 @@ import {Space} from "../types/Space";
 import {Game} from "../types/Game";
 export type GameContextType = {
     games: Game[],
+    screenName:string,
     selectGame:(game: Game) => Promise<void>,
     unselectGame: () => Promise<void>,
-    loaded : boolean,
     board: Board,
     setCurrentPlayerOnSpace: (space: Space) => Promise<void>,
     switchCurrentPlayer: () => Promise<void>
@@ -19,7 +19,7 @@ const GameContext = createContext<GameContextType>({
     selectGame: async () => {},
     unselectGame: async () => {},
 
-    loaded : false,
+    screenName:"Game",
     board: {
         playerDtos: [],
         spaceDtos: [],
