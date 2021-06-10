@@ -36,27 +36,32 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         }).catch(()=>{
             console.error("error when getting games")
         })
-        GameApi.getBoard(1).then((board:Board) => {
-            setSpaces(board.spaceDtos)
-            setPlayers(board.playerDtos)
-            setWidth(board.width)
-            setHeight(board.height)
-            setGameId(board.boardId)
-            setGameName(board.boardName)
-            if (board.currentPlayerDto) {
-                setCurrentPlayer(board.currentPlayerDto)
-                board.playerDtos.forEach((player,index)=>{
-                    if(player.playerId === board.currentPlayerDto?.playerId){
-                        setCurrentPlayerIndex(index)
-                    }
-                })
-
-            }
-        }).catch(() => {
-            console.error("Error while fetching board from backend")
-        })
     }, [])
 
+    const getGames = useCallback(async()=> {
+        GameApi.getGames().then((ga:Game[]) => {
+            setGames(ga)
+        }).catch(()=>{
+            console.error("error when getting games")
+        })
+    },[])
+
+    const addPlayer = useCallback(async(game:Game, player:Player)=> {
+        GameApi.addPlayer(game.id, player).then(() => {
+        }).catch(()=>{
+            console.error("error when getting games")
+        })
+    },[])
+
+
+    const createBoard = useCallback(async(board:Board)=> {
+        console.log("Create")
+            GameApi.createBoard(board).then(() => {
+                console.log("Create")
+            }).catch(() => {
+                console.error("Error when creating board")
+            })
+    },[])
 
     const selectGame = useCallback(async(game:Game)=> {
         console.log("SELECT")
@@ -97,10 +102,6 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         setGameId(-1);
         setScreenName("Game")
     }, [])
-
-    /*
-
-     */
 
 
     //Define a function used to set a player ona  specific space
@@ -159,10 +160,13 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                 {
                     games: games,
                     screenName: screenName,
+                    getGames: getGames,
                     selectGame: selectGame,
                     unselectGame: unselectGame,
+                    createBoard: createBoard,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,
+                    addPlayer: addPlayer,
                     switchCurrentPlayer: switchToNextPlayer
                 }
             }>

@@ -15,13 +15,19 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
         unselectGame()
     }, [])
 
+    const CreateGame = useCallback(() => {
+        unselectGame()
+    }, [])
 
 
     return (
         /*Apply css on div below*/
-        screenName =="Board" ?
+        screenName ==="Board" ?
             <div>
-                <h1 onClick={OnClickGame}> {board.boardName}</h1>
+                <h1>
+                    {board.boardName}
+                    <button onClick={OnClickGame} type="button">Return to overview</button>
+                </h1>
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>
                             <div key={"spaceArray" + index}>
@@ -36,6 +42,7 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
             </div>
             :
             <div/>
+
     )
 
 }

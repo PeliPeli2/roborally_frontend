@@ -15,9 +15,19 @@ function App() {
             {/*Context provider component below makes sure the context is accessible in any children components*/}
             <GameContextProvider>
                 <GamesComponent/>
-                 <BoardComponent/>
+                <BoardComponent/>
+                {/* try to make a context provicer dor screenname for app, aane parse that to the inner context provider
+                    {
+                        'Game': <GamesComponent/>,
+                        'Board': <BoardComponent/>
+                    }[screenName]
+
+                    return the full list when making rest calls and update them in a then statement
+                */
+                }
             </GameContextProvider>
         </div>
+
     );
 }
 

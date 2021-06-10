@@ -2,13 +2,18 @@ import {createContext} from "react";
 import {Board} from "../types/Board";
 import {Space} from "../types/Space";
 import {Game} from "../types/Game";
+import {Player} from "../types/Player";
+
 export type GameContextType = {
     games: Game[],
     screenName:string,
+    getGames:() => Promise<void>,
     selectGame:(game: Game) => Promise<void>,
     unselectGame: () => Promise<void>,
+    createBoard: (board: Board) => Promise<void>,
     board: Board,
     setCurrentPlayerOnSpace: (space: Space) => Promise<void>,
+    addPlayer:(game:Game, player: Player) => Promise<void>,
     switchCurrentPlayer: () => Promise<void>
 }
 //Define a new context of type GameContextType
@@ -16,8 +21,12 @@ export type GameContextType = {
 
 const GameContext = createContext<GameContextType>({
     games: [],
+
+    getGames: async () => {},
     selectGame: async () => {},
     unselectGame: async () => {},
+    createBoard: async () => {},
+
 
     screenName:"Game",
     board: {
@@ -30,6 +39,8 @@ const GameContext = createContext<GameContextType>({
         width: 0
     },
     setCurrentPlayerOnSpace: async () => {
+    },
+    addPlayer: async () => {
     },
     switchCurrentPlayer: async () => {
     }
