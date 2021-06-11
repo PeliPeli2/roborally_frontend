@@ -32,6 +32,10 @@ class GameApi{
         return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`,player).then(value =>value.data)
     }
 
+    public setCurrentPlayer(boardId : number, playerId : number){
+        return axios.put(`${this.BACKEND_URL}/board/${boardId}/currentPlayer/${boardId}`)
+    }
+
     public switchPlayer(boardId : number){
         return axios.put(`${this.BACKEND_URL}/board/${boardId}/switchplayer`)
     }

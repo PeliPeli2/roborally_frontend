@@ -48,8 +48,12 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const addPlayer = useCallback(async(game:Game, player:Player)=> {
         GameApi.addPlayer(game.id, player).then(() => {
+            GameApi.setCurrentPlayer(game.id, player.playerId).then(() => {
+                getGames()
+            })
         }).catch(()=>{
-            console.error("error when getting games")
+            console.error("Error when adding player")
+
         })
     },[])
 
@@ -57,7 +61,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const createBoard = useCallback(async(board:Board)=> {
         console.log("Create")
             GameApi.createBoard(board).then(() => {
-                console.log("Create")
+                getGames()
             }).catch(() => {
                 console.error("Error when creating board")
             })

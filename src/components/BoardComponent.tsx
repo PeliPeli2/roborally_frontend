@@ -15,11 +15,6 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
         unselectGame()
     }, [])
 
-    const CreateGame = useCallback(() => {
-        unselectGame()
-    }, [])
-
-
     return (
         /*Apply css on div below*/
         screenName ==="Board" ?

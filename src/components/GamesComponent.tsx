@@ -1,4 +1,4 @@
-import {FunctionComponent, useContext, useState, useCallback} from "react";
+import {FunctionComponent, useContext, useState} from "react";
 import GameContext from "../context/GameContext";
 import {GameComponent} from "./GameComponent";
 import {Player} from "../types/Player";
@@ -6,23 +6,16 @@ import {Board} from "../types/Board";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
-    const{games,screenName, createBoard, getGames} = useContext(GameContext)
-    const [player, setPlayer] = useState<Player[]>([{"boardId" : -1, "playerId" : 0, "playerName": "sup", "playerColor": "red" , "x" : 1, "y" : 1}])
-    const [board, setBoard] = useState<Board>({"boardId" : -1,"boardName" : "lol","height" : 8,"width" : 8,"playerDtos" : player,"spaceDtos":[]})
+    const{games,screenName, createBoard} = useContext(GameContext)
+    const [board, setBoard] = useState<Board>({"boardId" : -1,"boardName" : "BoardName","height" : 8,"width" : 8,"playerDtos" : [],"spaceDtos":[]})
 
-
-
-    //  boardId : number,
-    //  boardName : string,
-    //  height : number,
-    //  width : number,
-    //  spaceDtos : Space[][],
-    //  playerDtos : Player[],
-    //  currentPlayerDto? : Player
-    const OnClickGame = useCallback(() => {
+    const OnClickGame = () => {
         createBoard(board)
-        getGames()
-    }, [])
+    }
+
+    const changeBoardName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setBoard({ ...board, [event.target.name]: event.currentTarget.value });
+    };
 
     return (
         screenName==="Game" ?
@@ -31,7 +24,13 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
                 <GameComponent key ={"game" + index}game={game}/>
                 )
                 }
-                <button onClick={() => OnClickGame()} type="button">create new game</button>
+                <input
+                    name="boardName"
+                    value={board.boardName}
+                    type='text'
+                    onChange={changeBoardName}
+                />
+                <button type="submit" onClick={() => OnClickGame()}>create new game</button>
             </div>
             :
             <div/>
