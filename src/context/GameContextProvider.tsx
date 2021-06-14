@@ -14,6 +14,7 @@ type GameContextProviderPropsType = {
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const [games, setGames] = useState<Game[]>([])
     const [players, setPlayers] = useState<Player[]>([])
+    const [selectedPlayer, setSelectedPlayer] = useState<string>("lol")
     const playerCount = useMemo(() => players.length, [players])
     const [screenName, setScreenName] = useState<string>("Game")
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
@@ -48,9 +49,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const addPlayer = useCallback(async(game:Game, player:Player)=> {
         GameApi.addPlayer(game.id, player).then(() => {
-            GameApi.setCurrentPlayer(game.id, player.playerId).then(() => {
-                getGames()
-            })
+              getGames()
         }).catch(()=>{
             console.error("Error when adding player")
 
@@ -69,6 +68,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     const selectGame = useCallback(async(game:Game)=> {
         console.log("SELECT")
+        console.log(game)
         if(game.started){
             GameApi.getBoard(game.id).then((board: Board) => {
                 if (board.playerDtos.length >0) {
@@ -169,6 +169,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                     unselectGame: unselectGame,
                     createBoard: createBoard,
                     board: board,
+                    selectedPlayer: selectedPlayer,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,
                     addPlayer: addPlayer,
                     switchCurrentPlayer: switchToNextPlayer

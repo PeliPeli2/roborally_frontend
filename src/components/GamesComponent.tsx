@@ -6,7 +6,7 @@ import {Board} from "../types/Board";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
-    const{games,screenName, createBoard} = useContext(GameContext)
+    const{games,screenName, createBoard, selectedPlayer} = useContext(GameContext)
     const [board, setBoard] = useState<Board>({"boardId" : -1,"boardName" : "BoardName","height" : 8,"width" : 8,"playerDtos" : [],"spaceDtos":[]})
 
     const OnClickGame = () => {
@@ -20,6 +20,10 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
     return (
         screenName==="Game" ?
             <div>
+                <div>
+                    {selectedPlayer}
+                </div>
+
                 {games.map((game,index)=>
                 <GameComponent key ={"game" + index}game={game}/>
                 )

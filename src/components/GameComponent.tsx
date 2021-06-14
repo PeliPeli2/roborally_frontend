@@ -2,6 +2,8 @@ import {FunctionComponent, useCallback, useContext, useState} from "react";
 import GameContext from "../context/GameContext";
 import {Game} from "../types/Game";
 import {Player} from "../types/Player";
+import {Space} from "../types/Space";
+
 
 export type GameComponentProps = {
     game: Game
@@ -9,8 +11,12 @@ export type GameComponentProps = {
 
 export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
 
-    const {selectGame, screenName, addPlayer} = useContext(GameContext)
-    const [player, setPlayer] = useState<Player>({"boardId" : game.id, "playerId" : -1, "playerName": "Player name", "playerColor": "red" , "x" : 1, "y" : 1})
+    const {selectGame, screenName, addPlayer, selectedPlayer} = useContext(GameContext)
+    const [playerName, setPlayerName] = useState<string>(selectedPlayer)
+    const [playerId, setPlayerId] = useState<number>(-1)
+    const [player, setPlayer] = useState<Player>({"boardId" : game.id, "playerId" : playerId, "playerName": "Player name", "playerColor": "red" , "x" : 0, "y" : 0})
+    const [space, setSpace] = useState<Space>({"playerId" : -1, "x" : 0, "y" : 0})
+
     const options = [
         {value: 'red', label: 'red'},
         {value: 'green', label: 'green'},
@@ -18,7 +24,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
     ];
 
 
-    const OnClickGame = useCallback(() => {
+    const OnClickGame = useCallback((game: Game) => {
+        console.log(game)
         selectGame(game)
         console.log(screenName)
     }, [])
@@ -30,16 +37,31 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
     const changePlayer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPlayer({ ...player, [event.target.name]: event.currentTarget.value });
     };
+
     const changePlayerColor = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setPlayer({ ...player, [event.target.name]: event.currentTarget.value });
     };
 
+    const changeSelectedPlayer = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPlayerName(event.currentTarget.value);
+    };
 
         return (
         <div>
             <h1>
-                {game.id}:{game.name} <button onClick={() => OnClickGame()} type="button">Play</button>
+                {game.id}:{game.name}
+                {game.started ?
+                    <button onClick={() => OnClickGame(game)} type="button">Play</button>
+                    :
+                    <div/>
+                }
             </h1>
+            Select the player you want to play as <br/>
+            <select name="selectedPlayer"
+                    value={playerName}
+                    onChange={changeSelectedPlayer}>
+                {game.users.map((user, index) => <option key={index} value={user.playerName}> {user.playerName} </option>)}
+            </select>
             <ul>
                 {game.users.map((user, index) => <li key={index}> {user.playerName} </li>)}
             </ul>
@@ -52,6 +74,22 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
                 <option value="green">green</option>
                 <option value="yellow">yellow</option>
             </select>
+            <input
+                name="x"
+                value={player.x}
+                type='number'
+                min="0"
+                max="8"
+                onChange={changePlayer}
+            />
+            <input
+                name="y"
+                value={player.y}
+                type='number'
+                min="0"
+                max="8"
+                onChange={changePlayer}
+            />
 
             <input
                 name="playerName"
