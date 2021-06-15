@@ -4,7 +4,7 @@ export type Player = {
     playerName: string,
     //The | operator is known as the "union" type, allowing us to have a property that can take different values
     // see https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#union-types
-    playerColor: "red" | "green" | "yellow" | "blue",
+    playerColor: "red" | "green" | "yellow" | "blue" | "brown" | "purple",
     x? : number,
     y? : number
 }
