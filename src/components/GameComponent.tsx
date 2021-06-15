@@ -22,6 +22,9 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
         {value: 'red', label: 'red'},
         {value: 'green', label: 'green'},
         {value: 'blue', label: 'blue'},
+        {value: 'yellow', label: 'yellow'},
+        {value: 'brown', label: 'brown'},
+        {value: 'purple', label: 'purple'},
     ];
 
 
@@ -32,7 +35,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
     }, [])
 
     const addPlayerButton = () => {
-            addPlayer(game, player)
+        addPlayer(game, player)
         }
 
     const changePlayer = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +77,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
                 <option value="blue">blue</option>
                 <option value="green">green</option>
                 <option value="yellow">yellow</option>
+                <option value="brown">brown</option>
+                <option value="purple">purple</option>
             </select>
             <input
                 name="x"
