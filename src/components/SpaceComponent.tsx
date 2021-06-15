@@ -1,7 +1,8 @@
 import {FunctionComponent, useCallback, useContext, useMemo} from "react";
 import {Space} from "../types/Space";
-import GameContext from "../context/GameContext";
+import exp from '../styling/img/explosion.gif'
 import styles from "../styling/SpaceComponent.module.scss"
+import GameContext from "../context/GameContext";
 
 export type SpaceComponentProps = {
     space: Space
@@ -28,6 +29,18 @@ export const SpaceComponent: FunctionComponent<SpaceComponentProps> = ({space}) 
     const onClickField = useCallback(async () => {
         if (!space.playerId) { // A shorthand, check equivalents at https://bit.ly/2MnA4Rk
             await setCurrentPlayerOnSpace(space)
+            const ele = document.getElementById(space.x +"_"+space.y);
+            if (ele !== null) {
+                // continue - error suppressed when used in this way.
+                const cl = ele.getAttribute("class")
+                if (cl !== null) {
+                    ele.setAttribute("class", "show")
+                    setTimeout(function () {
+                        ele.setAttribute("class", cl);
+                    }, 1000);
+
+                }
+            }
             switchCurrentPlayer()
         }
     }, [setCurrentPlayerOnSpace, space, switchCurrentPlayer])
@@ -35,13 +48,16 @@ export const SpaceComponent: FunctionComponent<SpaceComponentProps> = ({space}) 
         const res = board.playerDtos.find(value => value.playerId === space.playerId)
         if (res) return res.playerColor
     }, [board.playerDtos, space.playerId])
+
     return (
         //The classname is set dynamically and can either take the value styles.whiteSpace or styles.blackSpace
         //We also define that the callback should be called when the div is clicked
         <div className={styles[color + "Space"]} onClick={onClickField}>
             {/*if space.player is set render the div*/}
             {(space.playerId && playerColor) && <div className={styles[playerColor + "Player"]}/>}
+            <img  id={space.x +"_"+space.y} className={styles.hidden} src={exp} alt="loading..." />
         </div>
+
     )
 
 

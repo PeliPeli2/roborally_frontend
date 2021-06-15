@@ -1,8 +1,8 @@
 import {FunctionComponent, useContext, useState} from "react";
-import GameContext from "../context/GameContext";
 import {GameComponent} from "./GameComponent";
-import {Player} from "../types/Player";
 import {Board} from "../types/Board";
+import styles from "../styling/GamesComponent.module.scss";
+import GameContext from "../context/GameContext";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
@@ -20,14 +20,11 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
     return (
         screenName==="Game" ?
             <div>
-                <div>
-                    {selectedPlayer}
-                </div>
-
                 {games.map((game,index)=>
                 <GameComponent key ={"game" + index}game={game}/>
                 )
                 }
+                <div className={styles.header}>
                 <input
                     name="boardName"
                     value={board.boardName}
@@ -35,6 +32,7 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
                     onChange={changeBoardName}
                 />
                 <button type="submit" onClick={() => OnClickGame()}>create new game</button>
+                </div>
             </div>
             :
             <div/>

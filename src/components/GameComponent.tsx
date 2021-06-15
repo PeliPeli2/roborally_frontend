@@ -1,8 +1,9 @@
 import {FunctionComponent, useCallback, useContext, useState} from "react";
-import GameContext from "../context/GameContext";
 import {Game} from "../types/Game";
 import {Player} from "../types/Player";
 import {Space} from "../types/Space";
+import styles from "../styling/GameComponent.module.scss";
+import GameContext from "../context/GameContext";
 
 
 export type GameComponentProps = {
@@ -47,7 +48,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
     };
 
         return (
-        <div>
+        <div className={styles.game}>
             <h1>
                 {game.id}:{game.name}
                 {game.started ?
@@ -62,7 +63,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
                     onChange={changeSelectedPlayer}>
                 {game.users.map((user, index) => <option key={index} value={user.playerName}> {user.playerName} </option>)}
             </select>
-            <ul>
+            <ul className={styles.list}>
                 {game.users.map((user, index) => <li key={index}> {user.playerName} </li>)}
             </ul>
 

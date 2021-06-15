@@ -1,3 +1,15 @@
 .container {
     display: flex;
 }
+.title {
+     background-image: url("img/fire.jpg");
+     background-size: contain;
+     width:600px;
+ }
+
+.titleText{
+    background: rgba(black, 0.1);
+    color: white;
+    width:600px;
+    margin-bottom: 0px;
+}

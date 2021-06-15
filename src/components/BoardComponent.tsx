@@ -19,10 +19,12 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
         /*Apply css on div below*/
         screenName ==="Board" ?
             <div>
-                <h1>
+                <div className={styles.title}>
+                <h1 className={styles.titleText}>
                     {board.boardName}
                     <button onClick={OnClickGame} type="button">Return to overview</button>
                 </h1>
+                </div>
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>
                             <div key={"spaceArray" + index}>

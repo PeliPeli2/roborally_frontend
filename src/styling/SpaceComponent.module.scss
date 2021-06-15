@@ -41,3 +41,12 @@ $width: 75px;
   @include player(blue)
 }
 
+.hidden {
+ display: none;
+}
+
+.show{
+  display: block;
+}
+
+
