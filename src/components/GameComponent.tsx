@@ -64,6 +64,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
             <select name="selectedPlayer"
                     value={selectedPlayer}
                     onChange={changeSelect}>
+                <option value="" selected disabled hidden>Choose player</option>
                 {game.users.map((user, index) => <option key={index} value={user.playerName}> {user.playerName} </option>)}
             </select>
             <ul className={styles.list}>
