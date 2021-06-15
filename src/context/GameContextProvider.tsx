@@ -14,7 +14,7 @@ type GameContextProviderPropsType = {
 const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const [games, setGames] = useState<Game[]>([])
     const [players, setPlayers] = useState<Player[]>([])
-    const [selectedPlayer, setSelectedPlayer] = useState<string>("lol")
+    const [selectedPlayer, setSelectedPlayer] = useState<string>("")
     const playerCount = useMemo(() => players.length, [players])
     const [screenName, setScreenName] = useState<string>("Game")
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
@@ -38,6 +38,11 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
             console.error("error when getting games")
         })
     }, [])
+
+    const changeSelectedPlayer = useCallback((name:string)=> {
+            setSelectedPlayer(name)
+    },[])
+
 
     const getGames = useCallback(async()=> {
         GameApi.getGames().then((ga:Game[]) => {
@@ -107,6 +112,33 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         setScreenName("Game")
     }, [])
 
+    const selectGameId = useCallback(async(gameID:number)=> {
+        GameApi.getBoard(gameID).then((board: Board) => {
+            if (board.playerDtos.length >0) {
+                setSpaces(board.spaceDtos)
+                setPlayers(board.playerDtos)
+                setWidth(board.width)
+                setHeight(board.height)
+                setGameId(board.boardId)
+                setGameName(board.boardName)
+                if (board.currentPlayerDto) {
+                    setCurrentPlayer(board.currentPlayerDto)
+                    board.playerDtos.forEach((player, index) => {
+                        if (player.playerId === board.currentPlayerDto?.playerId) {
+                            setCurrentPlayerIndex(index)
+                        }
+                    })
+
+
+                }
+                console.log("screenName set")
+            }
+        }).catch(() => {
+            console.error("Error while fetching board from backend")
+        })
+    },[])
+
+
 
     //Define a function used to set a player ona  specific space
     const setPlayerOnSpace = useCallback(async (space: Space) => {
@@ -157,6 +189,19 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         })
     }, [currentPlayer, currentPlayerIndex, gameId, gameName, height, players, spaces, width])
 
+    useEffect(()=>{
+        const interval =setInterval(async()=>{
+            if(screenName==="Board"){
+                selectGameId(gameId)
+                }
+            else if (screenName==="Game")
+            {
+                getGames()
+            }
+            },5000)
+        }, [])
+
+
 
     return (
         <GameContext.Provider
@@ -172,6 +217,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                     selectedPlayer: selectedPlayer,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,
                     addPlayer: addPlayer,
+                    changeSelectedPlayer: changeSelectedPlayer,
                     switchCurrentPlayer: switchToNextPlayer
                 }
             }>

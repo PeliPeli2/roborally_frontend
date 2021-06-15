@@ -2,6 +2,7 @@ import {FunctionComponent, useContext, useState} from "react";
 import {GameComponent} from "./GameComponent";
 import {Board} from "../types/Board";
 import styles from "../styling/GamesComponent.module.scss";
+import bStyles from "../styling/BoardComponent.module.scss";
 import GameContext from "../context/GameContext";
 
 type GamesComponentProps = {}
@@ -20,6 +21,11 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
     return (
         screenName==="Game" ?
             <div>
+                <div className={bStyles.title}>
+                    <h1 className={bStyles.titleText}>
+                        Select your player : {selectedPlayer}
+                    </h1>
+                </div>
                 {games.map((game,index)=>
                 <GameComponent key ={"game" + index}game={game}/>
                 )

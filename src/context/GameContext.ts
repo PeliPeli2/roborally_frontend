@@ -13,6 +13,7 @@ export type GameContextType = {
     createBoard: (board: Board) => Promise<void>,
     board: Board,
     selectedPlayer: string,
+    changeSelectedPlayer: (name: string) => void,
     setCurrentPlayerOnSpace: (space: Space) => Promise<void>,
     addPlayer:(game:Game, player: Player) => Promise<void>,
     switchCurrentPlayer: () => Promise<void>
@@ -39,11 +40,14 @@ const GameContext = createContext<GameContextType>({
         height: 0,
         width: 0
     },
-    selectedPlayer: "lol",
+    selectedPlayer: "",
     setCurrentPlayerOnSpace: async () => {
     },
     addPlayer: async () => {
     },
+    changeSelectedPlayer: async () => {
+    },
+
     switchCurrentPlayer: async () => {
     }
 });

@@ -12,7 +12,7 @@ export type GameComponentProps = {
 
 export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
 
-    const {selectGame, screenName, addPlayer, selectedPlayer} = useContext(GameContext)
+    const {selectGame, screenName, addPlayer, selectedPlayer, changeSelectedPlayer} = useContext(GameContext)
     const [playerName, setPlayerName] = useState<string>(selectedPlayer)
     const [playerId, setPlayerId] = useState<number>(-1)
     const [player, setPlayer] = useState<Player>({"boardId" : game.id, "playerId" : playerId, "playerName": "Player name", "playerColor": "red" , "x" : 0, "y" : 0})
@@ -46,8 +46,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
         setPlayer({ ...player, [event.target.name]: event.currentTarget.value });
     };
 
-    const changeSelectedPlayer = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setPlayerName(event.currentTarget.value);
+    const changeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        changeSelectedPlayer(event.currentTarget.value)
     };
 
         return (
@@ -62,8 +62,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> =({game}) => {
             </h1>
             Select the player you want to play as <br/>
             <select name="selectedPlayer"
-                    value={playerName}
-                    onChange={changeSelectedPlayer}>
+                    value={selectedPlayer}
+                    onChange={changeSelect}>
                 {game.users.map((user, index) => <option key={index} value={user.playerName}> {user.playerName} </option>)}
             </select>
             <ul className={styles.list}>
