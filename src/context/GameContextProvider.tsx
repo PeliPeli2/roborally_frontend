@@ -136,7 +136,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         }).catch(() => {
             console.error("Error while fetching board from backend")
         })
-    },[])
+    },[screenName])
 
 
 
@@ -191,15 +191,23 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
 
     useEffect(()=>{
         const interval =setInterval(async()=>{
+            console.log("start interval")
+            console.log(screenName)
+            console.log(gameId)
             if(screenName==="Board"){
+                console.log("get GAME ID")
                 selectGameId(gameId)
                 }
             else if (screenName==="Game")
             {
+                console.log("GET games")
                 getGames()
             }
+            console.log("end interval")
+
             },5000)
-        }, [])
+        return ()=>{clearInterval(interval)}
+        }, [screenName])
 
 
 
