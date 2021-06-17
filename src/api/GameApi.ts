@@ -29,7 +29,7 @@ class GameApi{
     }
 
     public addPlayer(boardId : number, player : Player){
-        return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`,player).then(value =>value.data)
+        return axios.post(`${this.BACKEND_URL}/board/${boardId}/player`,player)
     }
 
     public setCurrentPlayer(boardId : number, playerId : number){

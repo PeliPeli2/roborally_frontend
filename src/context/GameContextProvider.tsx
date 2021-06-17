@@ -55,9 +55,8 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const addPlayer = useCallback(async(game:Game, player:Player)=> {
         GameApi.addPlayer(game.id, player).then(() => {
               getGames()
-        }).catch(()=>{
-            console.error("Error when adding player")
-
+        }).catch((e: any)=>{
+            alert(e.request.response)
         })
     },[])
 
